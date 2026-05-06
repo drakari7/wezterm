@@ -1,5 +1,6 @@
 local wezterm = require('wezterm')
 local act = wezterm.action
+local image_paste = require('image_paste')
 local config = wezterm.config_builder()
 
 -- Appearance
@@ -42,6 +43,7 @@ config.keys = {
   -- COPY PASTE
   { key = "c",     mods = "ALT",    action = act.CopyTo "Clipboard", },
   { key = "v",     mods = "ALT",    action = act.PasteFrom "Clipboard", },
+  { key = "v",     mods = "ALT|SHIFT", action = wezterm.action_callback(image_paste.paste_latest_screenshot) },
 
   -- Splits
   { key = "=",     mods = "LEADER", action = act.SplitHorizontal { domain = "DefaultDomain" }, },
