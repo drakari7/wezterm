@@ -1,6 +1,5 @@
 local wezterm = require('wezterm')
 local act = wezterm.action
-local image_paste = require('image_paste')
 local config = wezterm.config_builder()
 
 -- Appearance
@@ -10,11 +9,6 @@ config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
 config.font_size = 12
 config.scrollback_lines = 10000
 config.default_cursor_style = "BlinkingBar"
-
--- Colors
-config.colors = {
-  cursor_bg = 'black'
-}
 
 -- Tabs
 config.window_decorations = "RESIZE"
@@ -43,7 +37,6 @@ config.keys = {
   -- COPY PASTE
   { key = "c",     mods = "ALT",    action = act.CopyTo "Clipboard", },
   { key = "v",     mods = "ALT",    action = act.PasteFrom "Clipboard", },
-  { key = "v",     mods = "ALT|SHIFT", action = wezterm.action_callback(image_paste.paste_latest_screenshot) },
 
   -- Splits
   { key = "=",     mods = "LEADER", action = act.SplitHorizontal { domain = "DefaultDomain" }, },
