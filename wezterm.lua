@@ -2,11 +2,14 @@ local wezterm = require('wezterm')
 local act = wezterm.action
 local config = wezterm.config_builder()
 
+-- Default shell
+config.default_prog = { '/bin/zsh', '-l' }
+
 -- Appearance
 config.color_scheme = "Gruvbox Light"
 config.font = wezterm.font("IosevkaTerm Nerd Font Mono")
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
-config.font_size = 12
+config.font_size = 11.5
 config.scrollback_lines = 10000
 config.default_cursor_style = "BlinkingBar"
 
