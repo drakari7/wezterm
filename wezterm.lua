@@ -7,9 +7,10 @@ config.default_prog = { '/bin/zsh', '-l' }
 
 -- Appearance
 config.color_scheme = "Gruvbox Light"
+-- config.color_scheme = "Tokyo Night"
 config.font = wezterm.font("IosevkaTerm Nerd Font Mono")
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
-config.font_size = 11.5
+config.font_size = 18
 config.scrollback_lines = 10000
 config.default_cursor_style = "BlinkingBar"
 
@@ -27,6 +28,11 @@ config.leader = { key = "b", mods = "CTRL" }
 
 config.disable_default_key_bindings = false
 
+-- Paste on right click
+config.mouse_bindings = {
+  { event = { Down = { streak = 1, button = "Right" } }, mods = "NONE", action = act.PasteFrom "Clipboard" },
+}
+
 config.keys = {
   -- COPY MODE & QuickSelect
   { key = "c",     mods = "LEADER", action = act.ActivateCopyMode },
@@ -36,6 +42,7 @@ config.keys = {
   { key = "p",     mods = "LEADER", action = act.ActivateCommandPalette },
   { key = "f",     mods = "LEADER", action = act.Search { CaseInSensitiveString = "" } },
   { key = "Enter", mods = "ALT",    action = act.DisableDefaultAssignment },
+  { key = "m",     mods = "LEADER", action = act.TogglePaneZoomState },
 
   -- COPY PASTE
   { key = "c",     mods = "ALT",    action = act.CopyTo "Clipboard", },
@@ -61,8 +68,9 @@ config.keys = {
   { key = "]",     mods = "LEADER", action = act.MoveTabRelative(1) },
   { key = "[",     mods = "LEADER", action = act.MoveTabRelative(-1) },
 
-  -- Open nvim
+  -- custom strings
   { key = 'n',     mods = 'LEADER', action = act.Multiple { act.SendString 'nvim', act.SendKey { key = 'Enter' }, } },
+  { key = 'e',     mods = 'LEADER', action = act.SendString 'evrecord_consumers_{chdb,rtdb}' },
 
   -- Jump to tabs
   { key = "1",     mods = "LEADER", action = act.ActivateTab(0) },
