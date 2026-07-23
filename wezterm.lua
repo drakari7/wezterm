@@ -24,13 +24,25 @@ config.hide_tab_bar_if_only_one_tab = false
 -- config.window_close_confirmation = "NeverPrompt"
 
 -- Leader key
-config.leader = { key = "b", mods = "CTRL" }
+config.leader = { key = "Space", mods = "CTRL" }
 
 config.disable_default_key_bindings = false
 
--- Paste on right click
+-- Right click: copy selection if present, otherwise paste
 config.mouse_bindings = {
-  { event = { Down = { streak = 1, button = "Right" } }, mods = "NONE", action = act.PasteFrom "Clipboard" },
+  {
+    event = { Down = { streak = 1, button = "Right" } },
+    mods = "NONE",
+    action = wezterm.action_callback(function(window, pane)
+      local selection = window:get_selection_text_for_pane(pane)
+      if selection and #selection > 0 then
+        window:perform_action(act.CompleteSelection "Clipboard", pane)
+        window:perform_action(act.ClearSelection, pane)
+      else
+        window:perform_action(act.PasteFrom "Clipboard", pane)
+      end
+    end),
+  },
 }
 
 config.keys = {
