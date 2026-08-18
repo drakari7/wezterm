@@ -5,12 +5,12 @@ local config = wezterm.config_builder()
 -- Default shell
 config.default_prog = { '/bin/zsh', '-l' }
 
--- Appearance
-config.color_scheme = "Gruvbox Light"
--- config.color_scheme = "Tokyo Night"
+-- Appearance (color scheme + font size come from ~/.theme.toml)
+local theme = require('theme')
+config.color_scheme = theme.color_scheme
 config.font = wezterm.font("IosevkaTerm Nerd Font Mono")
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
-config.font_size = 18
+config.font_size = theme.font_size
 config.scrollback_lines = 10000
 config.default_cursor_style = "BlinkingBar"
 
