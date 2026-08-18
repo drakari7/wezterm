@@ -54,6 +54,8 @@ config.keys = {
   { key = "p",     mods = "LEADER", action = act.ActivateCommandPalette },
   { key = "f",     mods = "LEADER", action = act.Search { CaseInSensitiveString = "" } },
   { key = "Enter", mods = "ALT",    action = act.DisableDefaultAssignment },
+  -- Shift+Enter sends ESC+CR so Claude CLI inserts a newline instead of submitting
+  { key = "Enter", mods = "SHIFT",  action = act.SendString "\x1b\r" },
   { key = "m",     mods = "LEADER", action = act.TogglePaneZoomState },
 
   -- COPY PASTE
