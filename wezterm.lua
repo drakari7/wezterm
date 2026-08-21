@@ -43,6 +43,12 @@ config.mouse_bindings = {
       end
     end),
   },
+  -- Middle click: send Enter (replaces default paste-from-primary-selection)
+  {
+    event = { Down = { streak = 1, button = "Middle" } },
+    mods = "NONE",
+    action = act.SendKey { key = "Enter" },
+  },
 }
 
 config.keys = {
