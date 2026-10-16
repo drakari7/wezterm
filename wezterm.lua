@@ -1,6 +1,7 @@
 local wezterm = require('wezterm')
 local act = wezterm.action
 local config = wezterm.config_builder()
+local modes = require('modes')
 
 -- Default shell
 config.default_prog = { '/bin/zsh', '-l' }
@@ -52,14 +53,13 @@ config.mouse_bindings = {
 }
 
 config.keys = {
-  -- COPY MODE & QuickSelect
-  { key = "c",     mods = "LEADER", action = act.ActivateCopyMode },
+  -- COPY MODE & QuickSelect (copy/search bindings live in modes.lua)
   { key = "q",     mods = "LEADER", action = act.QuickSelect },
 
   -- Misc
   { key = "p",     mods = "LEADER", action = act.ActivateCommandPalette },
-  { key = "f",     mods = "LEADER", action = act.Search { CaseInSensitiveString = "" } },
   { key = "Enter", mods = "ALT",    action = act.DisableDefaultAssignment },
+
   -- Shift+Enter sends ESC+CR so Claude CLI inserts a newline instead of submitting
   { key = "Enter", mods = "SHIFT",  action = act.SendString "\x1b\r" },
   { key = "m",     mods = "LEADER", action = act.TogglePaneZoomState },
@@ -67,6 +67,10 @@ config.keys = {
   -- COPY PASTE
   { key = "c",     mods = "ALT",    action = act.CopyTo "Clipboard", },
   { key = "v",     mods = "ALT",    action = act.PasteFrom "Clipboard", },
+
+  -- Scrolling
+  { key = "PageUp",   mods = "NONE", action = act.ScrollByPage(-1) },
+  { key = "PageDown", mods = "NONE", action = act.ScrollByPage(1) },
 
   -- Splits
   { key = "=",     mods = "LEADER", action = act.SplitHorizontal { domain = "DefaultDomain" }, },
@@ -114,15 +118,15 @@ config.keys = {
   },
 
 }
+for _, k in ipairs(modes.keys) do table.insert(config.keys, k) end
 
-config.key_tables = {
-  resize_pane = {
-    { key = "h",      action = act.AdjustPaneSize { 'Left', 1 } },
-    { key = "l",      action = act.AdjustPaneSize { 'Right', 1 } },
-    { key = "j",      action = act.AdjustPaneSize { 'Down', 1 } },
-    { key = "k",      action = act.AdjustPaneSize { 'Up', 1 } },
-    { key = "Escape", action = 'PopKeyTable' },
-  },
+config.key_tables = modes.key_tables()
+config.key_tables.resize_pane = {
+  { key = "h",      action = act.AdjustPaneSize { 'Left', 1 } },
+  { key = "l",      action = act.AdjustPaneSize { 'Right', 1 } },
+  { key = "j",      action = act.AdjustPaneSize { 'Down', 1 } },
+  { key = "k",      action = act.AdjustPaneSize { 'Up', 1 } },
+  { key = "Escape", action = 'PopKeyTable' },
 }
 
 return config
