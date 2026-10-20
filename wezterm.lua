@@ -69,8 +69,8 @@ config.keys = {
   { key = "v",     mods = "ALT",    action = act.PasteFrom "Clipboard", },
 
   -- Scrolling
-  { key = "PageUp",   mods = "NONE", action = act.ScrollByPage(-1) },
-  { key = "PageDown", mods = "NONE", action = act.ScrollByPage(1) },
+  { key = "PageUp",   mods = "NONE", action = modes.page_key("PageUp", -1) },
+  { key = "PageDown", mods = "NONE", action = modes.page_key("PageDown", 1) },
 
   -- Splits
   { key = "=",     mods = "LEADER", action = act.SplitHorizontal { domain = "DefaultDomain" }, },

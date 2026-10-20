@@ -14,6 +14,19 @@ M.keys = {
   { key = '/', mods = 'LEADER', action = search },
 }
 
+-- Claude CLI handles PgUp/PgDown itself, so pass them through; every other app scrolls wezterm
+function M.page_key(key, pages)
+  return wezterm.action_callback(function(window, pane)
+    local proc = pane:get_foreground_process_name() or ''
+    -- exe resolves to .../claude/versions/<ver>, so the name alone never ends in "claude"
+    if proc:find('claude', 1, true) then
+      window:perform_action(act.SendKey { key = key }, pane)
+    else
+      window:perform_action(act.ScrollByPage(pages), pane)
+    end
+  end)
+end
+
 function M.key_tables()
   if not wezterm.gui then return {} end
 
