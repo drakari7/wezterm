@@ -15,11 +15,23 @@ M.keys = {
 }
 
 -- Claude CLI handles PgUp/PgDown itself, so pass them through; every other app scrolls wezterm
+-- bt-sandbox runs claude via docker exec, so the host sees the launcher script's argv, not claude
+local function is_sandbox_claude(pane)
+  local info = pane:get_foreground_process_info()
+  local argv = info and info.argv or {}
+  for i, arg in ipairs(argv) do
+    if arg:find('bt%-sandbox$') then
+      return argv[i + 1] == 'claude'
+    end
+  end
+  return false
+end
+
 function M.page_key(key, pages)
   return wezterm.action_callback(function(window, pane)
     local proc = pane:get_foreground_process_name() or ''
     -- exe resolves to .../claude/versions/<ver>, so the name alone never ends in "claude"
-    if proc:find('claude', 1, true) then
+    if proc:find('claude', 1, true) or is_sandbox_claude(pane) then
       window:perform_action(act.SendKey { key = key }, pane)
     else
       window:perform_action(act.ScrollByPage(pages), pane)
