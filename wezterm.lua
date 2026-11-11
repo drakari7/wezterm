@@ -32,18 +32,6 @@ config.disable_default_key_bindings = false
 -- Right click: copy selection if present, otherwise paste
 config.mouse_bindings = {
   {
-    event = { Up = { streak = 1, button = "Left" } },
-    mods = "CTRL",
-    action = act.OpenLinkAtMouseCursor,
-    mouse_reporting = true,
-  },
-  {
-    event = { Down = { streak = 1, button = "Left" } },
-    mods = "CTRL",
-    action = act.Nop,
-    mouse_reporting = true,
-  },
-  {
     event = { Down = { streak = 1, button = "Right" } },
     mods = "NONE",
     action = wezterm.action_callback(function(window, pane)
